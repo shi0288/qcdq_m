@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>汽车大全</title>
+<#include "pubmodule/common_top.ftl" />
+    <link rel="stylesheet" href="${cssPath}/wenda_enlist.css">
+</head>
+<body>
+<#include "pubmodule/wenda_pubHeadNav.ftl" />
+<div class="wenda_page">
+    <!-- 标题 -->
+<#assign  head_title="活动报名" />
+<#include "pubmodule/wenda_pubHead.ftl" />
+    <p class="title">请填写您的报名信息</p>
+    <div class="content">
+        <form action="./createActivity" id="filter_form" method="post">
+            <input type="hidden" value="${(attObj.attach_id)!''}" name="attach_id" id="attach_id"/>
+            <ul>
+                <li>
+                    <span>姓名：</span><input type="text" name="username" id="name" placeholder="请填写真实姓名"
+                                           maxlength="5"/>
+                    <img src="http://static.qcdqcdn.com/wap/img/input_delete.png" class="delete">
+                </li>
+                <li class="sex_li">
+                    <span>称呼：</span>
+                    <label for="man" class="active">先生</label>
+                    <label for="lady">女士</label>
+                    <input type="radio" value="男" id="man" name="sex" checked class="hide">
+                    <input type="radio" value="女" id="lady" name="sex" class="hide">
+                </li>
+                <li>
+                    <span>手机：</span><input type="text" name="mobile" id="mobile" maxlength="11"  placeholder="请填写手机号码">
+                    <span class="warn"><em></em>请输入正确的手机号，在进行报名</span>
+                    <img src="http://static.qcdqcdn.com/wap/img/input_delete.png" class="delete">
+                </li>
+            <#if (sign_infoObj)??>
+                <li>
+                    <input type="hidden" name="time" id="timeValue">
+                    <span>时间：</span><input type="button" id="timeInput" value="请选择参加时间">
+                </li>
+            </#if>
+            </ul>
+            <div class="submit"  disabled="true" >报名</div>
+        </form>
+    </div>
+
+    <!--问答时间弹层-->
+    <div class="cycle_module">
+        <ul>
+        <#if (sign_infoObj)??>
+            <#list sign_infoObj as item>
+                <li>${(item)!''}</li>
+            </#list>
+        </#if>
+        </ul>
+    </div>
+    <div class="mask_area">
+        <div class="mask"></div>
+        <div class="mask_jt"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $(".sex_li").on('click', 'label', function () {
+            $(this).addClass('active').siblings('label').removeClass('active');
+        })
+
+        $("#timeInput").on('click', function () {
+            $(".mask_area").show();
+            $(".cycle_module").animate({right: "0"}, 500);
+        })
+        $(".mask_jt").on('click', function () {
+            $(".mask_area").hide();
+            $(".cycle_module").animate({right: "-100%"}, 500);
+        })
+        $(".cycle_module ul").on("click", "li", function () {
+            $(".mask_area").hide();
+            $(".cycle_module").animate({right: "-100%"}, 500);
+            $("#timeValue").val($(this).html());
+            $("#timeInput").val($(this).html());
+        })
+
+
+        $(".content").on('keyup',function () {
+            var name = $("#name").val();
+            var phone = $("#mobile").val();
+            var className = (name!=""&&phone!="");
+            if(className){
+                $(".submit").addClass('active');
+                $('.submit').attr('disabled', false);
+            }else{
+                $('.submit').attr('disabled', true);
+                $(".submit").removeClass('active');
+            }
+        });
+
+        $('.submit').on('click', function () {
+            var username = $('#name').val();
+            if(!username){
+                alert('姓名不能为空');
+                return;
+            }
+            if(username.length<2){
+                alert('姓名至少两个字');
+                return;
+            }
+            var regName = /^[\u4e00-\u9fff]{0,}$/g;
+            if(!regName.test(username)){
+                alert('姓名只能是汉字');
+                return;
+            }
+            var mobile = $('#mobile').val();
+            if (!mobile) {
+                alert('手机号不能为空');
+                return;
+            }
+            var regex = /^1[3|4|5|7|8][0-9]\d{8}$/;
+            if (!regex.test(mobile)) {
+                alert('手机号不正确');
+                return;
+            }
+            var self = $("#filter_form");
+            var url = self.attr("action");
+            $('.submit').attr('disabled', true);
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded;charset=utf-8",
+                url: url,
+                data: self.serialize(),
+                success: function (result) {
+                    if (result.code == 10000) {
+                        $('.submit').html('报名成功！');
+                        $('.submit').attr("style","background: #9a8d9e;");
+                    } else if (result.code == 10001) {
+                        $('.submit').attr('disabled', false);
+                        window.location.href = 'http://i.m.qichedaquan.com/user/login?businessplatform=1&callback=' + window.location.href;
+                    }
+                    else {
+                        $('.submit').attr('disabled', false);
+                        alert(result.msg);
+                    }
+                },
+                error: function (e) {
+                    $('.submit').attr('disabled', false);
+                    alert('网络错误,请重试！');
+                }
+            });
+        })
+
+        $(".content").on("keyup","input",function () {
+            var value = $(this).val();
+            if(value.replace(" ","")!=""){
+                $(this).siblings(".delete").show()
+            }else{
+                $(this).siblings(".delete").hide()
+            }
+        })
+        $(".content").on("click",".delete",function () {
+            $(this).siblings("input").val("");
+            $(this).hide();
+            $(".submit").removeClass('active');
+        })
+
+        $("#mobile").on("keyup",function () {
+            this.value=this.value.replace(/[^0-9]/g,'');
+        })
+
+    })
+</script>
+
+
+</body>
+
+</html>

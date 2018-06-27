@@ -1,0 +1,50 @@
+package com.xyauto.qa.util;
+
+import com.xyauto.qa.cons.CommonCons;
+import com.xyauto.qa.cons.ViewKeyCons;
+import freemarker.template.Template;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by shiqm on 2017/3/17.
+ */
+@Component
+public class TemplateUtils {
+
+    @Autowired
+    private FreeMarkerConfigurer freeMarkerConfigurer;
+
+    public JSONResult parse(ViewKeyCons viewKeyCons, Object value) {
+        System.out.println(value);
+        JSONResult jsonResult = new JSONResult();
+        if (value == null) {
+            jsonResult.setDone(false);
+            return jsonResult;
+        }
+        Map map = new HashMap<>();
+        map.put(viewKeyCons.getKey(), value);
+        try {
+            Template template = freeMarkerConfigurer.getConfiguration()
+                    .getTemplate(CommonCons.Freemarker_Flag.FILE_PREFIX +
+                            viewKeyCons.getViewName() +
+                            CommonCons.Freemarker_Flag.FILE_SUFFIX);
+            Writer out = new StringWriter();
+            template.process(map, out);
+            jsonResult.setDone(true);
+            jsonResult.setHtmlNode(out.toString());
+            out.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+            jsonResult.setDone(false);
+        }
+        return jsonResult;
+    }
+
+
+}

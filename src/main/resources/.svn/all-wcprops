@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/xyask_m/!svn/ver/579/trunk/src/main/resources
+END
+bootstrap-preprod.properties
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/bootstrap-preprod.properties
+END
+bootstrap-dev.properties
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/bootstrap-dev.properties
+END
+bootstrap.properties
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/xyask_m/!svn/ver/582/trunk/src/main/resources/bootstrap.properties
+END
+bootstrap-prod.properties
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/bootstrap-prod.properties
+END

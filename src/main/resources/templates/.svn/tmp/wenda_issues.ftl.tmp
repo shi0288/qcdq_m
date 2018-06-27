@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes">
+    <title><#if (series_name)?? && (category_name)?? && (category_name !='全部类型')>${(series_name)!''}${(category_name)!''}
+        相关问题<#elseif (series_name)??>${(series_name)!''}
+        相关问题<#elseif (category_name)?? && (category_name !='全部类型')>${(category_name)!''}相关问题<#else>汽车问答</#if>
+        －手机汽车大全</title>
+    <meta name="description"
+          content="汽车大全问答，行圆汽车大全汽车问答专区，包含各大品牌各类汽车问答，权威专家告诉您如何选车买车，汽车保养及汽车使用常见问题。上行圆汽车大全汽车问答，让汽车生活更简单！"/>
+    <meta name="keywords" content="汽车问答，如何选车买车，汽车如何保养，汽车常见问题，汽车大全"/>
+<#include "pubmodule/common_top.ftl" />
+    <link rel="stylesheet" href="${cssPath}/wenda_issues.css">
+</head>
+
+<body>
+
+<#include "pubmodule/wenda_pubHeadNav.ftl" />
+<!-- 问题库 -->
+<div class="issues_page">
+
+    <!-- 标题 -->
+<#assign  head_title="问题库" />
+<#include "pubmodule/wenda_pubHead.ftl" />
+
+    <!-- nav -->
+    <div class="nav_list clearfix">
+        <#if (subject)??>
+            <a href="javascript:void(0);" class="subject">#${subject}#</a>
+        <#else>
+            <a href="javascript:void(0);" id="buyCar"
+               <#if (category_name)?? && (category_name !='全部类型')>class="checked"</#if>>
+                <#if (category_name)??>
+                ${(category_name)!''}
+                <#else>
+                    全部类型
+                </#if>
+                <i></i>
+            </a>
+            <a href="javascript:void(0);" id="choiceType" <#if (series_name)??>class="checked"</#if>>
+                <#if (series_name)??>
+                ${(series_name)!''}
+                <#else>
+                    全部车型
+                </#if>
+                <i></i>
+            </a>
+            <#if (category_id)?? || (category_name)?? || (series_id)?? || (series_name)??>
+                <a href="./issues" class="reset">重置</a>
+            <#else>
+                <a href="javascript:void(0);" class="reset disable">重置</a>
+            </#if>
+
+        </#if>
+    </div>
+    <!-- 推荐内容 -->
+    <div class="recommend_content">
+    <#include "fragment/question_index.ftl" />
+
+    <#if (questionRes.count>questionRes.limit)>
+        <div class="load_more_module">
+            <a href="javascript:void(0);" class="load_more">加载更多<img src="img/down.png"></a>
+            <a href="javascript:void(0);" class="loading"><img src="img/load_icon.png"></a>
+        </div>
+    </#if>
+    </div>
+
+<#assign cur_module_name="问题库" />
+<#include "pubmodule/wenda_pubBottom.ftl" />
+
+    <!-- 提问 -->
+    <div class="ask_btn" id="askBtn">
+        <a>提问</a>
+    </div>
+    <div class="ask_open" style="display: none;">
+        <a href="./publish" class="ask_img">图文</a>
+        <a href="./vote" class="ask_vote">投票</a>
+        <span class="ask_close"><img src="http://static.qcdqcdn.com/wap/img/close_btn.png"></span>
+    </div>
+
+</div>
+
+<!-- 回到顶部 -->
+<!-- 回到顶部 -->
+<div class="go_top" id="goTop"><span></span> <i></i></div>
+
+<!-- 遮罩层 -->
+<div class="mask_area">
+    <div class="mask"></div>
+    <div class="mask_jt"></div>
+</div>
+
+<!-- 右侧抽屉品牌 -->
+<div class="right_brand_module">
+    <!-- 品牌车型列表 -->
+    <div class="brand_type">
+        <div class="brand_list">
+        <#if (brandRes)??>
+            <#list brandRes?keys as key>
+                <div id="char_nav_${key}" class="letter_title"><span>${key}</span></div>
+                <div class="brand_box">
+                    <ul>
+                        <#list brandRes[key] as brand>
+                            <li brand_id="${brand.id}" brand_name="${(brand.name)!''}" brand_logo="${(brand.logo)!''}">
+                                <a href="javascript:void(0);">
+                                    <i><img onerror="nofind()" src="${(brand.logo)!''}"></i>
+                                    <span class="brand_name">${(brand.name)!''}</span>
+                                </a>
+                            </li>
+                        </#list>
+                    </ul>
+                </div>
+            </#list>
+        </#if>
+        </div>
+        <div class="letter_list">
+            <ul>
+            <#list brandRes?keys as key>
+                <li><a <#if key_index==0> class="checked" </#if> href="#char_nav_${(key)!''}">${(key)!''}</a></li>
+            </#list>
+            </ul>
+        </div>
+        <div class="letter_alert">
+            <span>H</span>
+        </div>
+    </div>
+</div>
+
+<!-- 右侧车款模块 -->
+<div class="right_type_module">
+    <div class="car_type_module">
+    </div>
+</div>
+
+<!-- 右侧问题类型 -->
+<div class="right_issues_module">
+    <div class="issues_list">
+        <ul>
+            <li>
+                <a href="./issues?category_name=全部类型<#if (series_id)??>&series_id=${series_id}</#if><#if (series_name)??>&series_name=${series_name}</#if>">全部类型</a>
+            </li>
+        <#if (categoryRes)??>
+            <#list categoryRes as category>
+                <li>
+                    <a href="./issues?category_id=${(category.id)!''}&category_name=${(category.name)!''}<#if (series_id)??>&series_id=${series_id}</#if><#if (series_name)??>&series_name=${series_name}</#if>"
+                        <#if (category_id)?? && category_id==category.id>
+                       class="current" </#if>>
+                    ${(category.name)!''}
+                    </a>
+                </li>
+            </#list>
+        </#if>
+        </ul>
+    </div>
+</div>
+<script src="${jsPath}/wenda_issues.js"></script>
+
+<input type="hidden" value="${(category_id)!''}" name="category_id" id="category_id"/>
+<input type="hidden" value="${(category_name)!''}" name="category_name" id="category_name"/>
+<input type="hidden" value="${(series_id)!''}" name="series_id" id="series_id"/>
+<input type="hidden" value="${(series_name)!''}" name="series_name" id="series_name"/>
+<input type="hidden" value="${(subject)!''}" name="subject" id="subject"/>
+
+<script>
+    $(function () {
+        var curPage = 1;
+        $('.load_more_module .load_more').click(function () {
+            $(this).hide();
+            $('.loading').css('display', 'block');
+            curPage += 1;
+            var cond = {};
+            cond.page = curPage;
+            var category_id = $('#category_id').val();
+            if (category_id) {
+                cond.category_id = category_id;
+            }
+            var series_id = $('#series_id').val();
+            if (series_id) {
+                cond.series_id = series_id;
+            }
+            var subject = $('#subject').val();
+            if (subject) {
+                cond.subject = subject;
+            }
+            $.localAjax('./getIssuesQuestion', cond, function (result) {
+                if (result.done) {
+                    $('.loading').hide();
+                    $('.load_more_module').before($(result.htmlNode));
+                    var pageCount = Math.ceil(result.count / result.limit);
+                    if (curPage < pageCount) {
+                        $('.load_more').css('display', 'block');
+                    }
+                }
+
+            });
+        });
+
+        //注销重新定义
+        $(".brand_list").off("click", ".brand_box li");
+        // 车型
+        $(".brand_list").on("click", ".brand_box li", function () {
+            var brand_id = $(this).attr('brand_id');
+            var brand_name = $(this).attr('brand_name');
+            var brand_logo = $(this).attr('brand_logo');
+            var typeBrandNode = document.createElement('div');
+            $(typeBrandNode).addClass('type_brand');
+            var brandLogoNode = document.createElement('span');
+            $(brandLogoNode).addClass('type_brand_logo');
+            $(brandLogoNode).attr("style", "background-image: url(" + brand_logo + ")");
+            typeBrandNode.appendChild(brandLogoNode);
+            var brandNameNode = document.createElement('span');
+            $(brandNameNode).addClass('type_brand_name');
+            $(brandNameNode).html(brand_name);
+            typeBrandNode.appendChild(brandNameNode);
+            $('.right_type_module .car_type_module').empty();
+            $('.right_type_module .car_type_module').append(typeBrandNode);
+            var cond = {};
+            cond.brand_id = brand_id;
+            $.localAjax('./getSeries', cond,
+                    function (result) {
+                        $.each(result, function (indexD, seriesObj) {
+                            var typeSeriesNode = document.createElement('div');
+                            $(typeSeriesNode).addClass('type_msg_list');
+                            var typeSeriesNameNode = document.createElement('h5');
+                            $(typeSeriesNameNode).addClass('sub_brand_name');
+                            $(typeSeriesNameNode).html(seriesObj.name);
+                            typeSeriesNode.appendChild(typeSeriesNameNode);
+                            var seriesUlNode = document.createElement('ul');
+                            $(seriesUlNode).addClass('sub_type_list');
+                            typeSeriesNode.appendChild(seriesUlNode);
+                            $.each(seriesObj.series, function (indexE, seriesObjTag) {
+                                var liNode = document.createElement('li');
+                                seriesUlNode.appendChild(liNode);
+                                var aNode = document.createElement('a');
+                                var hrefStr = './issues?series_id=' + seriesObjTag.id;
+                                hrefStr += '&series_name=' + seriesObjTag.name;
+                                var category_id = $('#category_id').val();
+                                if (category_id) {
+                                    hrefStr += '&category_id=' + category_id;
+                                }
+                                var category_name = $('#category_name').val();
+                                if (category_name) {
+                                    hrefStr += '&category_name=' + category_name;
+                                }
+                                $(aNode).attr('href', hrefStr);
+                                liNode.appendChild(aNode);
+                                var imgNode = document.createElement('img');
+                                $(imgNode).attr('src', seriesObjTag.image);
+                                $(imgNode).attr('onerror', 'nofind();');
+                                aNode.appendChild(imgNode);
+                                var spanNode = document.createElement('span');
+                                $(spanNode).addClass('type_name');
+                                $(spanNode).html(seriesObjTag.name);
+                                aNode.appendChild(spanNode);
+                            });
+                            $('.right_type_module .car_type_module').append(typeSeriesNode);
+                        });
+                        $(".right_type_module").animate({right: "0"}, 500);
+                    }
+            )
+        })
+    });
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+10
+
+dir
+580
+http://192.168.3.78/svn/xyask_m/trunk/src/main/java/com/xyauto/qa/core
+http://192.168.3.78/svn/xyask_m
+
+
+
+2018-02-06T09:54:25.430801Z
+576
+shiqm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5000deb9-3f6b-42db-a6b4-f7fbdc9ddac4
+
+aop
+dir
+
+processor
+dir
+
+ForwardedForInterceptor.java
+file
+
+
+
+
+2018-02-06T09:41:18.885052Z
+ed07d46090674336b6b9bfc9c5cd0fa4
+2018-02-06T09:54:25.430801Z
+576
+shiqm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+771
+
+filter
+dir
+
+configuration
+dir
+
+annotation
+dir
+
+interceptor
+dir
+

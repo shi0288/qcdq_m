@@ -1,0 +1,37 @@
+package com.xyauto.qa.util;
+
+import com.alibaba.fastjson.JSON;
+import com.xyauto.qa.cloud.AssistService;
+import com.xyauto.qa.cons.CommonCons;
+import com.xyauto.qa.core.annotation.Log;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Created by shiqm on 2017/3/23.
+ */
+@Component
+public class CitySessionUtil {
+
+    @Log
+    private Logger logger;
+
+    @Autowired
+    private AssistService assistService;
+
+
+    public  void resetCity(HttpServletRequest httpServletRequest){
+        HttpSession httpSession = httpServletRequest.getSession();
+        String clientIp = IPUtil.getRequestIP(httpServletRequest);
+        Result result = JSON.parseObject(assistService.getCity(null, null, clientIp), Result.class);
+        String cityName = result.getData().getString("name");
+        String cityId = result.getData().getString("id");
+        httpSession.setAttribute(CommonCons.Session_Flag.CLIENT_CITY, cityName);
+        httpSession.setAttribute(CommonCons.Session_Flag.CLIENT_CITY_ID, cityId);
+    }
+
+}

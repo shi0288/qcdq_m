@@ -1,0 +1,155 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/templates/fragment
+END
+special_user.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xyask_m/!svn/ver/390/trunk/src/main/resources/templates/fragment/special_user.ftl
+END
+quotation_list.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/templates/fragment/quotation_list.ftl
+END
+vote_design.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xyask_m/!svn/ver/306/trunk/src/main/resources/templates/fragment/vote_design.ftl
+END
+adviser_list.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/templates/fragment/adviser_list.ftl
+END
+question_issues.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/templates/fragment/question_issues.ftl
+END
+address.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/xyask_m/!svn/ver/231/trunk/src/main/resources/templates/fragment/address.ftl
+END
+adviser_list_bottom.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/templates/fragment/adviser_list_bottom.ftl
+END
+question_index.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/templates/fragment/question_index.ftl
+END
+special_user_bottom.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/fragment/special_user_bottom.ftl
+END
+favorite_user_bottom.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/fragment/favorite_user_bottom.ftl
+END
+answer_user_bottom.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/fragment/answer_user_bottom.ftl
+END
+comment_list.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/templates/fragment/comment_list.ftl
+END
+comment.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/fragment/comment.ftl
+END
+vote_car.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/xyask_m/!svn/ver/290/trunk/src/main/resources/templates/fragment/vote_car.ftl
+END
+answer_list.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xyask_m/!svn/ver/390/trunk/src/main/resources/templates/fragment/answer_list.ftl
+END
+answer_all.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/xyask_m/!svn/ver/238/trunk/src/main/resources/templates/fragment/answer_all.ftl
+END
+question_tag.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xyask_m/!svn/ver/319/trunk/src/main/resources/templates/fragment/question_tag.ftl
+END
+question_user.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/xyask_m/!svn/ver/390/trunk/src/main/resources/templates/fragment/question_user.ftl
+END
+broker_design.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/xyask_m/!svn/ver/306/trunk/src/main/resources/templates/fragment/broker_design.ftl
+END
+question_user_bottom.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/fragment/question_user_bottom.ftl
+END
+user_comment.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xyask_m/!svn/ver/231/trunk/src/main/resources/templates/fragment/user_comment.ftl
+END
+answer_list_bottom.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/xyask_m/!svn/ver/390/trunk/src/main/resources/templates/fragment/answer_list_bottom.ftl
+END
+answer_user.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xyask_m/!svn/ver/390/trunk/src/main/resources/templates/fragment/answer_user.ftl
+END
+comment_list_bottom.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/xyask_m/!svn/ver/390/trunk/src/main/resources/templates/fragment/comment_list_bottom.ftl
+END
+favorite_user.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/xyask_m/!svn/ver/390/trunk/src/main/resources/templates/fragment/favorite_user.ftl
+END

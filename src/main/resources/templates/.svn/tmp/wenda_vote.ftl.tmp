@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes">
+<#include "pubmodule/common_top.ftl" />
+    <script src="${jsPath}/sliderMenu.js"></script>
+    <title>投票-手机汽车大全</title>
+    <link rel="stylesheet" href="${cssPath}/wenda_pub_vote.css">
+    <link rel="stylesheet" href="${cssPath}/swiper-3.4.1.min.css">
+    <script src="${jsPath}/swiper-3.4.1.min.js"></script>
+</head>
+
+<body>
+<div class="interlocution_publish_page ">
+    <!-- 标题 -->
+<#assign  head_title="投票" />
+<#include "pubmodule/wenda_pubHead.ftl" />
+
+    <form action="./createQuestion" method="post" enctype="multipart/form-data" id="filter_form">
+        <input type="hidden" name="special_id" value="${(special_user.uid)!''}"/>
+        <div class="pub_header">
+            <textarea id="textarea" name="content" class="publish_area" placeholder="简单说说发起投票的理由"></textarea>
+        </div>
+        <div class="city clearfix">
+            <div class="p_dec" id="subject"><img src="http://static.qcdqcdn.com/wap/img/pub_vate.png"></div>
+            <div class="current_city" id="city">
+            <#if (clientCity)??>
+                <span id="cityValue" class="dealer_city">${(clientCity)!''}</span>
+            <#else>
+                <span id="cityValue" class="dealer_city">您在哪里？</span>
+            </#if>
+                <img src="http://static.qcdqcdn.com/wap/img/close_down.png" class="init_city">
+            </div>
+        </div>
+        <div class="pub_section">
+            <div class="swiper-container vote_model">
+                <span class="tip">至少2个选项</span>
+                <ul class="choose_type">
+                    <li class="ty_active" tagVal="car" data-index="0"><a href="javascript:void(0);">车型投票</a></li>
+                    <li data-index="1" tagVal="text"><a href="javascript:void(0);">观点投票</a></li>
+                </ul>
+                <div class="swiper-wrapper">
+                    <!--车型投票-->
+                    <div class="swiper-slide car_vote">
+                        <ul>
+                            <li>投票车型1</li>
+                            <li>投票车型2</li>
+                        </ul>
+                        <div class="add_car add_vote">
+                            <span id="choiceType" class="addType">✚ 添加车型</span>
+                        </div>
+                    </div>
+                    <!--观点投票-->
+                    <div class="swiper-slide point_vote">
+                        <ul>
+                            <li>
+                                <input type="text" name="topics" disabled placeholder="输入观点1（最多20个字）" maxlength="20">
+                                <img class='del' src='http://static.qcdqcdn.com/wap/img/close_down.png'>
+                            </li>
+                            <li>
+                                <input type="text" name="topics" disabled placeholder="输入观点2（最多20个字）" maxlength="20">
+                                <img class='del' src='http://static.qcdqcdn.com/wap/img/close_down.png'>
+                            </li>
+                        </ul>
+                        <div class="add_point add_vote">
+                            <span id="choiceVote" class="addType">✚ 添加观点</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="vote_cycle">
+            <div class="vote_dec">投票周期:</div>
+            <div class="vote_days">
+                <span>7天</span>
+                <img src="http://static.qcdqcdn.com/wap/img/rightjt.png">
+            </div>
+        </div>
+        <div class="quetion clearfix">
+            <div class="p_dec">问题类型：</div>
+            <div class="fl">
+            <#if (categoryRes)??>
+                <#list categoryRes as category>
+                    <#if category_index==2>
+                        <#break>
+                    </#if>
+                    <label for="category_${(category.id)!''}">
+                        <span class="category_choose <#if category_index==0>q_select</#if>"
+                              tagVal="${(category.id)!''}">${(category.name)!''}</span>
+                    </label>
+                    <input type="radio" class="hide" id="category_${(category.id)!''}" name="car"/>
+                </#list>
+            </#if>
+            </div>
+        </div>
+        <input type="hidden" value="${(categoryRes[0].id)!''}" name="category_id" id="category_id_val"/>
+        <input type="hidden" value="${(clientCityId)!''}" name="city_id" id="city_id"/>
+        <input type="hidden" value="car" name="voteType" id="voteType"/>
+        <input type="hidden" value="7" name="closeTime" id="closeTime"/>
+        <div class="seize"></div>
+        <div class="pub_footer">
+            <input type="button" id="submit_but" value="提 交"/>
+        </div>
+    </form>
+</div>
+
+<!--问答周期弹出层-->
+<div class="cycle_module public_module" style="right: -100%;">
+    <ul>
+        <li tagVal="3">3天</li>
+        <li tagVal="7" class="cyc_active">7天</li>
+        <li tagVal="15">15天</li>
+    </ul>
+</div>
+
+<!--话题-->
+<div class="subject_module public_module">
+    <p>热门话题</p>
+    <ul>
+    <#if (popularRes.content)??>
+        <#list popularRes.content as popular>
+            <li>#${(popular.title)!''}#</li>
+        </#list>
+    </#if>
+    </ul>
+</div>
+<!-- 右侧省份层 --><!-- 右侧市层-->
+<img src="img/double_jt.png" class="slider_btn">
+<div class="right_module_province">
+    <div class="province_scroll_module">
+        <dl class="current_province">
+            <dt>当前定位城市</dt>
+        <#if (clientCity)??>
+            <dd class="current" tagVal="${(clientCityId)!''}">${(clientCity)!''}</dd>
+        <#else>
+            <dd style="display: block;" class="no_get">无法获取</dd>
+        </#if>
+        </dl>
+        <div class="other_province" id="otherProvince">
+        <#if (provinceRes)??>
+            <#list provinceRes?keys as key>
+                <dl>
+                    <dt>${(key)!''}</dt>
+                    <#list provinceRes[key] as province>
+                        <dd tagVal="${(province.id)!''}"><span>${(province.name)!''}</span><i></i></dd>
+                    </#list>
+                </dl>
+            </#list>
+        </#if>
+        </div>
+    </div>
+</div>
+<div class="right_module_city">
+    <ul>
+
+    </ul>
+</div>
+<!-- 遮罩层 -->
+<div class="mask_area">
+    <div class="mask"></div>
+    <div class="mask_jt"></div>
+</div>
+<div class="tanceng_tip">
+    <div class="some_fixed_tips review_tips points_tip"></div>
+</div>
+<!-- 右侧抽屉品牌 -->
+<div class="right_brand_module">
+    <!-- 品牌车型列表 -->
+    <div class="brand_type">
+        <div class="brand_list">
+        <#if (brandRes)??>
+            <#list brandRes?keys as key>
+                <div id="char_nav_${key}" class="letter_title"><span>${key}</span></div>
+                <div class="brand_box">
+                    <ul>
+                        <#list brandRes[key] as brand>
+                            <li brand_id="${brand.id}" brand_name="${(brand.name)!''}"
+                                brand_logo="${(brand.img100)!''}">
+                                <a href="javascript:void(0);">
+                                    <i><img onerror="nofind()" src="${(brand.img100)!''}"></i>
+                                    <span class="brand_name">${(brand.name)!''}</span>
+                                </a>
+                            </li>
+                        </#list>
+                    </ul>
+                </div>
+            </#list>
+        </#if>
+        </div>
+        <div class="letter_list">
+            <ul>
+            <#list brandRes?keys as key>
+                <li><a <#if key_index==0> class="checked" </#if> href="#char_nav_${(key)!''}">${(key)!''}</a></li>
+            </#list>
+            </ul>
+        </div>
+        <div class="letter_alert"><span>H</span></div>
+    </div>
+</div>
+<!-- 右侧车款模块 -->
+<div class="right_type_module">
+</div>
+
+
+<!-- 右侧车款模块 -->
+<div class="right_disign_module">
+</div>
+
+<#include "pubmodule/wenda_pubHeadNav.ftl" />
+
+<script src="${jsPath}/wenda_issues.js"></script>
+<script src="${jsPath}/wenda_pub_vote.js"></script>
+<script src="js/ajaxfileupload.js"></script>
+<script>
+    $(function () {
+        //注销重新定义
+        $(".brand_list").off("click", ".brand_box li");
+        // 车型
+        $(".brand_list").on("click", ".brand_box li", function () {
+            var brand_id = $(this).attr('brand_id');
+            var brand_logo = $(this).attr('brand_logo');
+            if (brand_logo == undefined || brand_logo == null || brand_logo == '') {
+                brand_logo = 'img/noimg.jpg';
+            }
+            $.ajax({
+                type: "POST",
+                url: "./getRSeries?timestamp=" + new Date().getTime(),
+                dataType: "json",
+                async: true,
+                cache: false,
+                data: {brand_id: brand_id},
+                success: function (result) {
+                    $('.right_type_module').empty();
+                    $('.right_type_module').append(result.htmlNode);
+                    $('.right_type_module').find('.type_brand_logo').attr("style", "background-image: url(" + brand_logo + ")");
+                    $(".right_type_module").animate({right: "0"}, 500);
+                }
+            });
+        });
+
+        $(".car_type_module dl").off("click");
+        $(".right_type_module").on("click", ".car_type_module dl", function (e) {
+            var series_id = $(this).attr('tagVal');
+            var series_name = $(this).find('.type_name').text();
+            $.ajax({
+                type: "POST",
+                url: "./getRCars?timestamp=" + new Date().getTime(),
+                dataType: "json",
+                async: true,
+                cache: false,
+                data: {series_id: series_id},
+                success: function (result) {
+                    if (result.htmlNode == undefined || result.htmlNode == '' || result.htmlNode == null) {
+                        addCarMode(series_name, 'series', series_id);
+                    } else {
+                        $('.right_disign_module').empty();
+                        $('.right_disign_module').append(result.htmlNode);
+                        $(".right_disign_module").animate({right: "0"}, 500);
+                        $("#car_name").text(series_name);
+                        $("#car_series_id").attr('tagVal', series_id);
+                    }
+                }
+            });
+        });
+
+        $(".car_disign_module dl").off("click");
+        $(".right_disign_module").on("click", ".car_disign_module dl", function () {
+            var typeText = $(this).find(".type_name").text();
+            var seriesName = $("#car_name").text();
+            var carId = $(this).attr('tagVal');
+//            var year = $(this).attr('tagYear');
+            typeText = seriesName + ' ' + typeText;
+            addCarMode(typeText, 'car', carId);
+        })
+        $(".car_disign_module .type_brand_name").off("click");
+        $(".right_disign_module").on("click", ".car_disign_module .type_brand_name", function () {
+            var typeText = $("#car_name").text();
+            var seriesId = $(this).attr('tagVal');
+            addCarMode(typeText, 'series', seriesId);
+        })
+
+        function addCarMode(typeText, type, id) {
+            var hiddenVal = type + "_" + typeText + "_" + id;
+            var idVal = type + "_" + id;
+            if ($("#" + idVal).length >= 1) {
+                alert('已经添加这个车型');
+                return;
+            }
+            if ($(".car_vote ul .cartype").length >= 2) {
+                $(".car_vote ul").append("<li class='cartype'>" + typeText + "<img class='del'  tagVal='" + idVal + "'   src='img/close_down.png'></li>");
+            } else if ($(".car_vote ul .cartype").length == 0) {
+                $(".car_vote ul li:nth-child(1)").html(typeText + "<img class='del'  tagVal='" + idVal + "'   src='img/close_down.png'>");
+                $(".car_vote ul li:nth-child(1)").addClass('cartype');
+            } else if ($(".car_vote ul .cartype").length == 1) {
+                $(".car_vote ul li:nth-child(2)").html(typeText + "<img class='del'  tagVal='" + idVal + "'  src='img/close_down.png'>");
+                $(".car_vote ul li:nth-child(2)").addClass('cartype');
+            }
+            var inputStr = "<input type='hidden'  id='" + idVal + "' name='carModes' value='" + hiddenVal + "'  />"
+            $(".car_vote ul").append(inputStr);
+            if ($(".car_vote ul .cartype").length >= 5) {
+                $(".add_car").hide();
+                $(".swiper-wrapper").css("height", $(".car_vote").css("height"));
+            }
+            $(".swiper-wrapper").css("height", $(".swiper-slide-active").css("height"));
+            $(".right_brand_module").animate({right: "-100%"}, 500);
+            $(".right_type_module").animate({right: "-100%"}, 500);
+            $(".right_disign_module").animate({right: "-100%"}, 500);
+            $(".mask_area").hide();
+            $(".letter_list").fadeOut();
+        }
+
+        $(".car_vote ul").off("click", ".del");
+        $(".car_vote ul").on("click", ".del", function () {
+            var idVal = $(this).attr('tagVal');
+            $("#" + idVal).remove();
+            if ($(".car_vote ul .cartype").length > 2) {
+                $(this).parent().remove();
+            } else if ($(".car_vote ul .cartype").length == 1) {
+                $(".car_vote ul li:nth-child(1)").html("投票车型1");
+                $(".car_vote ul li:nth-child(1)").removeClass('cartype');
+            } else if ($(".car_vote ul .cartype").length == 2) {
+                $(".car_vote ul li:nth-child(2)").html("投票车型2");
+                $(".car_vote ul li:nth-child(2)").removeClass('cartype');
+            }
+            if ($(".car_vote ul .cartype").length <= 4) {
+                $(".add_car").fadeIn();
+                $(".swiper-wrapper").css("height", $(".car_vote").css("height"));
+            }
+
+        })
+
+
+        $('.category_choose').on('click', function () {
+            var category_id = $(this).attr('tagVal');
+            $('#category_id_val').val(category_id);
+            $('.category_choose').removeClass('q_select');
+            $(this).addClass('q_select');
+        });
+
+
+        $('.other_province').find('dd:not([class="zxs"])').off('click');
+        $("#otherProvince").on("click", "dl dd", function () {
+            if ($(this).find("span").hasClass("zxs")) {
+                $(".mask_area").hide();
+                $(".right_module_province").animate({right: "-100%"}, 500);
+                $(".right_module_city").animate({right: "-100%"}, 500);
+            } else {
+                var province_id = $(this).attr("tagVal");
+                var province_name = $(this).children('span').html();
+                $.ajax({
+                    type: "POST",
+                    url: "./getCityList?timestamp=" + new Date().getTime(),
+                    dataType: "json",
+                    async: true,
+                    cache: false,
+                    data: {province_id: province_id},
+                    success: function (result) {
+                        $('.right_module_city ul').empty();
+                        var liNode = document.createElement('li');
+                        $(liNode).addClass('checked_province');
+                        var aNode = document.createElement('a');
+                        $(aNode).attr('href', 'javascript:void(0);');
+                        liNode.appendChild(aNode);
+                        var iNode = document.createElement('i');
+                        aNode.appendChild(iNode);
+                        var emProvinceNameNode = document.createElement('em');
+                        $(emProvinceNameNode).html(province_name);
+                        aNode.appendChild(emProvinceNameNode);
+                        $('.right_module_city ul').append(liNode);
+                        $.each(result, function (indexE, cityObj) {
+                            var liNode = document.createElement('li');
+                            var aNode = document.createElement('a');
+                            $(aNode).attr('href', 'javascript:void(0);');
+                            $(aNode).attr('tagVal', cityObj.id);
+                            $(aNode).html(cityObj.name);
+                            liNode.appendChild(aNode);
+                            $('.right_module_city ul').append(liNode);
+                        })
+                        $(".right_module_city").animate({right: "0"}, 500);
+                    }
+                })
+            }
+        })
+
+        $('body').on('click', '.checked_province a', function () {
+            $(".right_module_city").animate({right: "-100%"}, 500);
+        })
+
+        $(".right_module_city").off("click", "a");
+        $('body').on('click', '.right_module_city a[tagVal]', function () {
+            var cityName = $(this).html();
+            $("#cityValue").html(cityName);
+            var cityId = $(this).attr('tagVal');
+            $("#city_id").val(cityId);
+            $(".mask_area").hide();
+            //$(".right_module_province").animate({right: "-100%"}, 500);
+            //$(".right_module_city").animate({right: "-100%"}, 500);
+            $(".right_module_province").css({
+                right: "-100%",
+                transition: "right .6s"
+            });
+            $(".right_module_city").css({
+                right: "-100%",
+                transition: "right .6s"
+            });
+            $.upUserCity(cityId, cityName);
+        })
+
+
+        $('.current_province .current').off('click');
+        $('.current').off('click');
+        $('.current').on('click', function () {
+            var cityName = $(this).html();
+            $("#cityValue").html(cityName);
+            var cityId = $(this).attr('tagVal');
+            $("#city_id").val(cityId);
+            $('.mask_area').hide();
+            //$(".right_module_province").animate({right: "-100%"}, 500);
+            //$(".right_module_city").animate({right: "-100%"}, 500);
+            $(".right_module_province").css({
+                right: "-100%",
+                transition: "right .6s"
+            });
+            $(".right_module_city").css({
+                right: "-100%",
+                transition: "right .6s"
+            });
+            $.upUserCity(cityId, cityName);
+        })
+
+        $('.init_city').off('click');
+        $('.init_city').on('click', function () {
+            $("#cityValue").html('你在哪里？');
+            $("#city_id").val('');
+        })
+
+        $(".point_vote").off("click", "#choiceVote");
+        $(".point_vote").on("click", "#choiceVote", function () {
+            var index = $(".point_vote ul li").length + 1;
+            $(".point_vote ul").append('<li><input type="text" name="topics"    placeholder="输入观点' + index + '（最多20个字）" maxlength="20"><img class="del"src="img/close_down.png"></li>')
+            if (index >= 5) {
+                $(".add_point").hide();
+                $(".swiper-wrapper").css("height", $(".point_vote").css("height"));
+            }
+            $(".swiper-wrapper").css("height", $(".point_vote").css("height"));
+        });
+
+        $(".point_vote ul").off("click", ".del");
+        $(".point_vote ul").on("click", ".del", function () {
+            var len = $(".point_vote ul li").length;
+            if (len > 2) {
+                $(this).parent().remove();
+            } else {
+                var index = $(this).parent().index() + 1;
+                $(this).parent().html("<input type='text' name='topics'   placeholder='输入观点" + index + "（最多20个字）' maxlength='20'><img class='del'src='img/close_down.png'>");
+                $(".point_vote ul li:nth-child(1)").removeClass('cartype');
+            }
+            if ($(".point_vote ul .cartype").length <= 4) {
+                $(".add_point").show();
+                $(".swiper-wrapper").css("height", $(".point_vote").css("height"));
+            }
+            for (var i = 0; i < $(".point_vote ul li").length; i++) {
+                $(".point_vote ul li:nth-child(" + (i + 1) + ") input").attr("placeholder", "输入观点" + (i + 1) + "（最多20个字）")
+                if ($(".point_vote ul li:nth-child(" + i + ") input").val() != "") {
+                    $(".point_vote ul li:nth-child(" + i + ") img").show();
+                }
+            }
+        });
+
+        $(".cycle_module").off("click", "li");
+        $(".cycle_module").on("click", "li", function () {
+            $(".mask_area").hide();
+            $(".cycle_module").animate({right: "-100%"}, 500);
+            $(".vote_days span").html($(this).html());
+            $(this).addClass("cyc_active").siblings().removeClass("cyc_active");
+            $('#closeTime').val($(this).attr('tagVal'));
+        });
+
+        var isRepaying = false;
+        $("#submit_but").on('click', function () {
+            $.mqttMessage(function (message) {
+                try {
+                    $(".points_tip").text(JSON.parse(message).tip.replace("发布成功", "").replace(/[\r\n]/g, "")).fadeIn();
+                    $(".points_tip").fadeOut(1200);
+                } catch (e) {
+                }
+            });
+            if ($('#textarea').val() == '') {
+                alert('内容不能为空');
+                return;
+            }
+            if ($('#textarea').val().length < 10) {
+                alert('字数不得少10个字喔~！');
+                return;
+            }
+
+            if ($('#textarea').val().length > 500) {
+                alert('最多输入500字，请简化一下喔~');
+                return;
+            }
+            if ($('#category_id_val').val() == '') {
+                alert('问题类型不能为空');
+                return;
+            }
+            var voteType = $('.choose_type').find('.ty_active').attr('tagVal');
+            if (voteType == undefined || voteType == '') {
+                alert('投票类型不能为空');
+                return;
+            }
+            $('#voteType').val(voteType);
+            if (!isRepaying) {
+                isRepaying = true;
+            } else {
+                return;
+            }
+            $.localFormAjax('filter_form', function (result) {
+                if (result.code == 10000) {
+                    setTimeout(function () {
+                        window.location.href = './answer?question_id=' + result.key;
+                    }, 1500)
+                } else {
+                    alert(result.msg);
+                    isRepaying = false;
+                }
+            });
+        })
+
+        $(".right_disign_module").on("click", ".car_disign_module .type_brand_logo", function () {
+            $(".right_disign_module").animate({right: "-100%"}, 500)
+        })
+    })
+
+</script>
+</body>
+</html>

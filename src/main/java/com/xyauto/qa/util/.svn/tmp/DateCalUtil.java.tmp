@@ -1,0 +1,104 @@
+package com.xyauto.qa.util;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * Created by shiqm on 2017/3/15.
+ */
+public class DateCalUtil {
+
+
+    public static String timeAgo(Long millis) {
+        String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+        Long diff = Long.valueOf(timestamp) - millis;
+        DecimalFormat df = new DecimalFormat("#");
+        if (diff > 0 && diff < 60) {
+            return "刚刚发布";
+        } else if (diff >= 60 && diff < 3600) {
+            return df.format(Math.floor(diff / 60)) + "分钟之前";
+        } else if (diff >= 3600 && diff < 86400) {
+            return df.format(Math.floor(diff / 3600)) + "小时之前";
+        } else if (diff >= 86400) {
+            Date date = new Date(millis * 1000L);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
+            String curYear = simpleDateFormat.format(new Date());
+            String createYear = simpleDateFormat.format(new Date(millis * 1000L));
+            if (curYear.equals(createYear)) {
+                return new SimpleDateFormat("M-d").format(date);
+            } else {
+                return new SimpleDateFormat("yyyy-M-d").format(date);
+            }
+        } else {
+            return "刚刚发布";
+        }
+    }
+
+    /**
+     * 转为前台时间样式
+     *
+     * @param jsonObject
+     * @return
+     */
+    public static void transTimestamp(JSONObject jsonObject, boolean _contentTrans) {
+        if (jsonObject != null) {
+            JSONArray jsonArray = jsonObject.getJSONArray("list");
+            for (int i = 0; i < jsonArray.size(); i++) {
+                JSONObject obj = jsonArray.getJSONObject(i);
+                obj.put("created_at", DateCalUtil.timeAgo(obj.getLongValue("created_at")));
+                if (_contentTrans) {
+                    obj.put("content", transContent(obj.getString("content")));
+                }
+            }
+        }
+    }
+
+    public static String transContent(String content) {
+        String clone = new String(content);
+        content = content.replaceAll("\r|\n", "");
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        Pattern pattern = Pattern.compile("(?<=#)(.*?)(?=#)");
+        Matcher matcher = pattern.matcher(content);
+        int m = 0;
+        while (matcher.find()) {
+            m++;
+            if (m % 2 == 0) {
+                continue;
+            }
+            String temp = matcher.group();
+            if (temp.length() >= 2 && temp.length() <= 10) {
+                if (map.get(temp) == null) {
+                    String replaceStr = "#" + temp + "#";
+                    clone = clone.replaceAll(replaceStr, "<a class='blue' href='./issues?subject="+temp+"' >" + replaceStr + "</a>");
+                    map.put(temp, 1);
+                }
+            }
+        }
+        return clone;
+    }
+
+    /**
+     * 转为前台时间样式
+     *
+     * @param jsonObject
+     * @return
+     */
+    public static void transTimestampObj(JSONObject jsonObject, boolean _contentTrans) {
+        if (jsonObject != null) {
+            jsonObject.put("created_at", DateCalUtil.timeAgo(jsonObject.getLongValue("created_at")));
+            if (_contentTrans) {
+                jsonObject.put("content", transContent(jsonObject.getString("content")));
+            }
+        }
+    }
+
+
+}

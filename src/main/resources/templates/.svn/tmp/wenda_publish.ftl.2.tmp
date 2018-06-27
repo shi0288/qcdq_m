@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes">
+<#include "pubmodule/common_top.ftl" />
+    <script src="${jsPath}/sliderMenu.js"></script>
+    <title>提问-手机汽车大全</title>
+    <link rel="stylesheet" href="${cssPath}/wenda_publish.css">
+</head>
+
+<body>
+<div class="interlocution_publish_page ">
+    <!-- 标题 -->
+<#assign  head_title="提问" />
+<#if (type)??>
+    <#assign  head_title="分享帖" />
+</#if>
+<#include "pubmodule/wenda_pubHead.ftl" />
+
+    <form action="./createQuestion" method="post" enctype="multipart/form-data" id="filter_form">
+        <input type="hidden" name="special_id" value="${(special_user.uid)!''}"/>
+    <#if (type)??>
+        <input type="hidden" name="type" value="1"/>
+    </#if>
+        <div class="pub_header">
+        <#if (special_user)??>
+            <p>向
+                <#if special_user.type==2>
+                    问答专家
+                <#elseif special_user.type==3>
+                    车顾问
+                <#else>
+                    问答标兵
+                </#if>
+                <span>${(special_user.name)!''}</span>提问：</p>
+        </#if>
+            <textarea id="textarea" name="content" class="publish_area"
+                      placeholder="<#if (type)??>图文并茂地发表你的想法<#else>请输入您的问题，平均十分钟收到解答</#if>"></textarea>
+            <div class="publish_img2">
+                <label for="choose_img"><img src="/img/publish_add.jpg" alt=""></label>
+            </div>
+        </div>
+        <div class="city clearfix">
+            <div class="publish_img">
+                <input type="file" id="choose_img" name="file" accept="image/gif,image/jpeg,image/x-png">
+                <label for="choose_img"><img src="http://static.qcdqcdn.com/wap/img/publish_add.png" alt=""></label>
+            </div>
+            <div class="p_dec" id="subject"><img src="http://static.qcdqcdn.com/wap/img/pub_vate.png"></div>
+            <div class="current_city" id="city">
+                <span id="cityValue" class="dealer_city">您在哪里？</span>
+                <img src="http://static.qcdqcdn.com/wap/img/close_down.png" class="init_city">
+            </div>
+        </div>
+        <div class="pub_section">
+            <div class="publish_bound clearfix">
+                <div class="p_dec">关联车型：</div>
+                <div class="fl">
+                <#if (seriesObj)??>
+                    <span class="cho_car" tagval="${(seriesObj.id)}">${(seriesObj.name)!''}<img src="img/delete_red.png"
+                                                                                                alt=""></span>
+                </#if>
+                    <span id="choiceType">✚ 关联车型</span>
+                </div>
+            </div>
+            <div class="quetion clearfix">
+                <div class="p_dec"><#if (type)??>内容<#else>问题</#if>类型：</div>
+                <div class="fl">
+                <#if (categoryRes)??>
+                    <#list categoryRes as category>
+                        <#if !(type)?? &&  category_index==2>
+                            <#break>
+                        </#if>
+                        <label for="category_${(category.id)!''}">
+                            <#if (type)??>
+                                <span class="category_choose <#if category_index==2>q_select</#if>"
+                                      tagVal="${(category.id)!''}">${(category.name)!''}</span>
+                            <#else>
+                                <span class="category_choose <#if category_index==0>q_select</#if>"
+                                      tagVal="${(category.id)!''}">${(category.name)!''}</span>
+                            </#if>
+                        </label>
+                        <input type="radio" class="hide" id="category_${(category.id)!''}" name="car"/>
+                    </#list>
+                </#if>
+                </div>
+            </div>
+        </div>
+        <#if (type)??>
+            <input type="hidden" value="${(categoryRes[2].id)!''}" name="category_id" id="category_id_val"/>
+        <#else>
+            <input type="hidden" value="${(categoryRes[0].id)!''}" name="category_id" id="category_id_val"/>
+        </#if>
+        <input type="hidden" value="<#if (seriesObj)??>${(seriesObj.id)}</#if>" name="cars" id="cars_val"/>
+        <input type="hidden" value="" name="attachs" id="attachs_val"/>
+        <input type="hidden" value="${(clientCityId)!''}" name="city_id" id="city_id"/>
+        <div class="pub_footer">
+            <input type="button" id="submit_but" value="提 交"/>
+        </div>
+    </form>
+</div>
+
+<!--话题-->
+<div class="subject_module public_module">
+    <p>热门话题</p>
+    <ul>
+    <#if (popularRes.content)??>
+        <#list popularRes.content as popular>
+            <li>#${(popular.title)!''}#</li>
+        </#list>
+    </#if>
+    </ul>
+</div>
+<!-- 右侧省份层 --><!-- 右侧市层-->
+<img src="img/double_jt.png" class="slider_btn">
+<div class="right_module_province">
+    <div class="province_scroll_module">
+        <dl class="current_province">
+            <dt>当前定位城市</dt>
+        <#if (clientCity)??>
+            <dd class="current" tagVal="${(clientCityId)!''}">${(clientCity)!''}</dd>
+        <#else>
+            <dd style="display: block;" class="no_get">无法获取</dd>
+        </#if>
+        </dl>
+        <div class="other_province" id="otherProvince">
+        <#if (provinceRes)??>
+            <#list provinceRes?keys as key>
+                <dl>
+                    <dt>${(key)!''}</dt>
+                    <#list provinceRes[key] as province>
+                        <dd tagVal="${(province.id)!''}"><span>${(province.name)!''}</span><i></i></dd>
+                    </#list>
+                </dl>
+            </#list>
+        </#if>
+        </div>
+    </div>
+</div>
+<div class="right_module_city">
+    <ul>
+
+    </ul>
+</div>
+<!-- 遮罩层 -->
+<div class="mask_area">
+    <div class="mask"></div>
+    <div class="mask_jt"></div>
+</div>
+
+<!-- 右侧抽屉品牌 -->
+<div class="right_brand_module">
+    <!-- 品牌车型列表 -->
+    <div class="brand_type">
+        <div class="brand_list">
+        <#if (brandRes)??>
+            <#list brandRes?keys as key>
+                <div id="char_nav_${key}" class="letter_title"><span>${key}</span></div>
+                <div class="brand_box">
+                    <ul>
+                        <#list brandRes[key] as brand>
+                            <li brand_id="${brand.id}" brand_name="${(brand.name)!''}" brand_logo="${(brand.logo)!''}">
+                                <a href="javascript:void(0);">
+                                    <i><img onerror="nofind()" src="${(brand.logo)!''}"></i>
+                                    <span class="brand_name">${(brand.name)!''}</span>
+                                </a>
+                            </li>
+                        </#list>
+                    </ul>
+                </div>
+            </#list>
+        </#if>
+        </div>
+        <div class="letter_list">
+            <ul>
+            <#list brandRes?keys as key>
+                <li><a <#if key_index==0> class="checked" </#if> href="#char_nav_${(key)!''}">${(key)!''}</a></li>
+            </#list>
+            </ul>
+        </div>
+        <div class="letter_alert"><span>H</span></div>
+    </div>
+</div>
+<!-- 右侧车款模块 -->
+<div class="right_type_module">
+    <div class="car_type_module">
+    </div>
+</div>
+
+<#include "pubmodule/wenda_pubHeadNav.ftl" />
+
+
+<script src="${jsPath}/wenda_publish.js"></script>
+<script src="${jsPath}/wenda_issues.js"></script>
+<script src="js/ajaxfileupload.js"></script>
+<script>
+    $(function () {
+        var carArr = new Array();
+        if ($('#cars_val').length > 0) {
+            if ($('#cars_val').val() != undefined && $('#cars_val').val() != '') {
+                carArr.push($('#cars_val').val());
+            }
+        }
+        $(".type_msg_list").off("click", "span");
+        $(".car_type_module").on("click", "a", function (e) {
+            var car_id = $(this).find('.type_name').attr('tagVal');
+            var carName = $(this).find('.type_name').html();
+            if (carArr.contains(car_id)) {
+                alert('此车型已关联');
+                return;
+            }
+            $("#choiceType").before("<span class='cho_car' tagVal='" + car_id + "'>" + carName + "<img src='img/delete_red.png' alt=''></span>");
+            carArr.addToArr(car_id, $('#cars_val'));
+            if ($('.fl').children('.cho_car').length >= 5) {
+                $("#choiceType").hide();
+            }
+            $(".right_brand_module").animate({right: "-100%"}, 500);
+            $(".right_type_module").animate({right: "-100%"}, 500);
+            $(".mask_area").fadeOut();
+            $(".letter_list").fadeOut();
+        });
+
+        //注销重新定义
+        $(".publish_bound .fl").off("click", ".cho_car");
+        $(".publish_bound .fl").on("click", ".cho_car", function (e) {
+            var target = e.target;
+            var car_id = $(this).attr('tagVal');
+            if ($(target)[0].src) {
+                $(target).parent().remove();
+            } else {
+                $(target).remove();
+            }
+            carArr.removeByValue(car_id, $('#cars_val'));
+            if ($("#choiceType").css("display") == 'none' && $('.fl').children('.cho_car').length < 5) {
+                $("#choiceType").show();
+            }
+        });
+
+        //注销重新定义
+        $(".brand_list").off("click", ".brand_box li");
+        // 车型
+        $(".brand_list").on("click", ".brand_box li", function () {
+            var brand_id = $(this).attr('brand_id');
+            var brand_name = $(this).attr('brand_name');
+            var brand_logo = $(this).attr('brand_logo');
+            var typeBrandNode = document.createElement('div');
+            $(typeBrandNode).addClass('type_brand');
+            var brandLogoNode = document.createElement('span');
+            $(brandLogoNode).addClass('type_brand_logo');
+            $(brandLogoNode).attr("style", "background-image: url(" + brand_logo + ")");
+            typeBrandNode.appendChild(brandLogoNode);
+            var brandNameNode = document.createElement('span');
+            $(brandNameNode).addClass('type_brand_name');
+            $(brandNameNode).html(brand_name);
+            typeBrandNode.appendChild(brandNameNode);
+            $('.right_type_module .car_type_module').empty();
+            $('.right_type_module .car_type_module').append(typeBrandNode);
+            $.ajax({
+                type: "POST",
+                url: "./getSeries?timestamp=" + new Date().getTime(),
+                dataType: "json",
+                async: true,
+                cache: false,
+                data: {brand_id: brand_id},
+                success: function (result) {
+                    $.each(result, function (indexD, seriesObj) {
+                        var typeSeriesNode = document.createElement('div');
+                        $(typeSeriesNode).addClass('type_msg_list');
+                        var typeSeriesNameNode = document.createElement('h5');
+                        $(typeSeriesNameNode).addClass('sub_brand_name');
+                        $(typeSeriesNameNode).html(seriesObj.name);
+                        typeSeriesNode.appendChild(typeSeriesNameNode);
+                        var seriesUlNode = document.createElement('ul');
+                        $(seriesUlNode).addClass('sub_type_list');
+                        typeSeriesNode.appendChild(seriesUlNode);
+                        $.each(seriesObj.series, function (indexE, seriesObjTag) {
+                            var liNode = document.createElement('li');
+                            seriesUlNode.appendChild(liNode);
+                            var aNode = document.createElement('a');
+                            liNode.appendChild(aNode);
+                            var imgNode = document.createElement('img');
+                            $(imgNode).attr('src', seriesObjTag.image);
+                            $(imgNode).attr('onerror', 'nofind();');
+                            aNode.appendChild(imgNode);
+                            var spanNode = document.createElement('span');
+                            $(spanNode).addClass('type_name');
+                            $(spanNode).attr('tagVal', seriesObjTag.id);
+                            $(spanNode).html(seriesObjTag.name);
+                            aNode.appendChild(spanNode);
+                        });
+                        $('.right_type_module .car_type_module').append(typeSeriesNode);
+                    });
+                    $(".right_type_module").animate({right: "0"}, 500);
+                }
+            });
+        });
+
+        $('.category_choose').on('click', function () {
+            var category_id = $(this).attr('tagVal');
+            $('#category_id_val').val(category_id);
+            $('.category_choose').removeClass('q_select');
+            $(this).addClass('q_select');
+        });
+
+        var attachArr = new Array();
+        $("body").on("change", "#choose_img", function () {
+            if ($(".publish_img2 span").length >= 9) {
+                alert('最多添加9张图');
+                return;
+            }
+            var file = this.files[0];
+            if (file == undefined || file == null) {
+                return;
+            }
+            if (file.size > 8388608) {
+                alert("图片过大，请上传小于8MB的图片！");
+                return;
+            }
+            if (!/image\/\w+/.test(file.type)) {
+                alert("请确保文件为图像类型");
+                return false;
+            }
+            $.picUpload("choose_img", function (result) {
+                if (result && result.code == 10000) {
+                    attachArr.addToArr(result.data, $("#attachs_val"));
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function (e) {
+                        $(".publish_img2 label").css("display", "inline");
+                        $(".publish_img2 label").before("<span><img  tagVal='" + result.data + "'  src='img/p_del.png' class='del'><img src='" + this.result + "'></span>");
+                        if ($(".publish_img2 span").length >= 9) {
+                            $(".publish_img2 label").css("display", "none");
+                        }
+                    }
+                }
+            })
+        });
+
+        $(".publish_img2").off("click", "span");
+        $(".publish_img2").on("click", ".del", function (e) {
+            var target = e.target;
+            var imgStr = $(target).attr('tagVal');
+            attachArr.removeByValue(imgStr, $('#attachs_val'));
+            $(target).parent().remove();
+            if ($(".publish_img2 span").length == 8) {
+                $(".publish_img2 label").css("display", "inline");
+            }
+            if ($(".publish_img2 span").length == 0) {
+                $(".publish_img2 label").css("display", "none");
+            }
+        });
+
+        $('.other_province').find('dd:not([class="zxs"])').off('click');
+        $("#otherProvince").on("click", "dl dd", function () {
+            if ($(this).find("span").hasClass("zxs")) {
+                $(".mask_area").fadeOut();
+                $(".right_module_province").animate({right: "-100%"}, 500);
+                $(".right_module_city").animate({right: "-100%"}, 500);
+            } else {
+                var province_id = $(this).attr("tagVal");
+                var province_name = $(this).children('span').html();
+                $.ajax({
+                    type: "POST",
+                    url: "./getCityList?timestamp=" + new Date().getTime(),
+                    dataType: "json",
+                    async: true,
+                    cache: false,
+                    data: {province_id: province_id},
+                    success: function (result) {
+                        $('.right_module_city ul').empty();
+                        var liNode = document.createElement('li');
+                        $(liNode).addClass('checked_province');
+                        var aNode = document.createElement('a');
+                        $(aNode).attr('href', 'javascript:void(0);');
+                        liNode.appendChild(aNode);
+                        var iNode = document.createElement('i');
+                        aNode.appendChild(iNode);
+                        var emProvinceNameNode = document.createElement('em');
+                        $(emProvinceNameNode).html(province_name);
+                        aNode.appendChild(emProvinceNameNode);
+                        $('.right_module_city ul').append(liNode);
+                        $.each(result, function (indexE, cityObj) {
+                            var liNode = document.createElement('li');
+                            var aNode = document.createElement('a');
+                            $(aNode).attr('href', 'javascript:void(0);');
+                            $(aNode).attr('tagVal', cityObj.id);
+                            $(aNode).html(cityObj.name);
+                            liNode.appendChild(aNode);
+                            $('.right_module_city ul').append(liNode);
+                        })
+                        $(".right_module_city").animate({right: "0"}, 500);
+                    }
+                })
+            }
+        })
+
+        $('body').on('click', '.checked_province a', function () {
+            $(".right_module_city").animate({right: "-100%"}, 500);
+        })
+
+        $(".right_module_city").off("click", "a");
+        $('body').on('click', '.right_module_city a[tagVal]', function () {
+            var cityName = $(this).html();
+            $("#cityValue").html(cityName);
+            var cityId = $(this).attr('tagVal');
+            $("#city_id").val(cityId);
+            $('.mask_area').fadeOut();
+            //$(".right_module_province").animate({right: "-100%"}, 500);
+            //$(".right_module_city").animate({right: "-100%"}, 500);
+            $(".right_module_province").css({
+                right: "-100%",
+                transition: "right .6s"
+            });
+            $(".right_module_city").css({
+                right: "-100%",
+                transition: "right .6s"
+            });
+            $.upUserCity(cityId, cityName);
+        })
+
+
+        $('.current_province .current').off('click');
+        $('.current').off('click');
+
+        $('.current').on('click', function () {
+            var cityName = $(this).html();
+            $("#cityValue").html(cityName);
+            var cityId = $(this).attr('tagVal');
+            $("#city_id").val(cityId);
+            $('.mask_area').fadeOut();
+            //$(".right_module_province").animate({right: "-100%"}, 500);
+            //$(".right_module_city").animate({right: "-100%"}, 500);
+            $(".right_module_province").css({
+                right: "-100%",
+                transition: "right .6s"
+            });
+            $(".right_module_city").css({
+                right: "-100%",
+                transition: "right .6s"
+            });
+            $.upUserCity(cityId, cityName);
+        })
+
+
+        $('.init_city').off('click');
+        $('.init_city').on('click', function () {
+            $("#cityValue").html('你在哪里？');
+            $("#city_id").val('');
+        })
+
+
+        var isRepaying = false;
+        $("#submit_but").on('click', function () {
+            if ($('#textarea').val() == '') {
+                alert('内容不能为空');
+                return;
+            }
+            if ($('#textarea').val().length < 10) {
+                alert('字数不得少10个字喔~！');
+                return;
+            }
+
+            if ($('#textarea').val().length > 500) {
+                alert('最多输入500字，请简化一下喔~');
+                return;
+            }
+            if ($('#category_id_val').val() == '') {
+                alert('问题类型不能为空');
+                return;
+            }
+            if (!isRepaying) {
+                isRepaying = true;
+            } else {
+                return;
+            }
+            $.localFormAjax('filter_form', function (result) {
+                if (result.code == 10000) {
+                    window.location.href = './answer?question_id=' + result.key;
+                } else {
+                    alert(result.msg);
+                    isRepaying = false;
+                }
+            });
+        })
+
+
+    })
+
+</script>
+</body>
+</html>

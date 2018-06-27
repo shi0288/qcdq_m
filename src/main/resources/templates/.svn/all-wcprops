@@ -1,0 +1,179 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/templates
+END
+wenda_index.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/templates/wenda_index.ftl
+END
+wenda_quotation_list.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/templates/wenda_quotation_list.ftl
+END
+wenda_brilliant.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/templates/wenda_brilliant.ftl
+END
+show_image.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/xyask_m/!svn/ver/452/trunk/src/main/resources/templates/show_image.ftl
+END
+wenda_integray.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/wenda_integray.ftl
+END
+mywenda_zhuanjia.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/mywenda_zhuanjia.ftl
+END
+wenda_issues.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/templates/wenda_issues.ftl
+END
+mywenda_guanfang.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/mywenda_guanfang.ftl
+END
+hiswenda_guwen.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/hiswenda_guwen.ftl
+END
+wenda_answer.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/xyask_m/!svn/ver/427/trunk/src/main/resources/templates/wenda_answer.ftl
+END
+hiswenda_zhuanjia.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/hiswenda_zhuanjia.ftl
+END
+mywenda_biaobing.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/mywenda_biaobing.ftl
+END
+hiswenda_guanfang.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/hiswenda_guanfang.ftl
+END
+mywenda_guwen.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/mywenda_guwen.ftl
+END
+mywenda_putong.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/mywenda_putong.ftl
+END
+wenda_offering.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/wenda_offering.ftl
+END
+wenda_adviser.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/templates/wenda_adviser.ftl
+END
+hiswenda_biaobing.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/hiswenda_biaobing.ftl
+END
+wenda_enlist.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/xyask_m/!svn/ver/576/trunk/src/main/resources/templates/wenda_enlist.ftl
+END
+wenda_search.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/xyask_m/!svn/ver/300/trunk/src/main/resources/templates/wenda_search.ftl
+END
+wenda_quotation.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/wenda_quotation.ftl
+END
+mywenda_404.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/xyask_m/!svn/ver/452/trunk/src/main/resources/templates/mywenda_404.ftl
+END
+wenda_vote.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/wenda_vote.ftl
+END
+wenda_ans_detail.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/xyask_m/!svn/ver/434/trunk/src/main/resources/templates/wenda_ans_detail.ftl
+END
+hiswenda_putong.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/hiswenda_putong.ftl
+END
+wenda_publish.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/xyask_m/!svn/ver/408/trunk/src/main/resources/templates/wenda_publish.ftl
+END
+wenda_count.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/xyask_m/!svn/ver/408/trunk/src/main/resources/templates/wenda_count.ftl
+END
+wenda_rank.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/wenda_rank.ftl
+END
+wenda_zhuanjialist.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/wenda_zhuanjialist.ftl
+END

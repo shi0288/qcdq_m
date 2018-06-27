@@ -1,0 +1,78 @@
+<#if (userSpecial)??  && (userSpecial.list?size>0)>
+    <#if userSpecial.page==1>
+    <div class="ans_expert_box">
+    </#if>
+    <#list userSpecial.list as q>
+        <dl class="recom_content_module">
+            <dt>
+                <a href="./user?uid=${q.user.uid}" class="user_photo">
+                    <img onerror="nofind()" src="${(q.user.avatar)!'img/user_default_title.png'}">
+                </a>
+                <#if q.user.is_official==1>
+                    <img src="img/guangfang1.png" class="level_title">
+                <#else>
+                    <#if q.user.type==2>
+                        <img src="img/expert.png" class="level_title">
+                    <#elseif q.user.type==1>
+                        <img src="img/biaobing.png" class="level_title">
+                    <#elseif q.user.type==3>
+                        <img src="img/guwen.png" class="level_title">
+                    </#if>
+                </#if>
+            </dt>
+            <dd>
+                <a href="./user?uid=${q.user.uid}" class="user_name">${(q.user.name)!''}</a>
+                <a href="./issues?category_id=${(q.category_id)!''}&category_name=${(q.category_name)!''}"
+                   class="use_car"></a>
+                <p class="recom_text" onclick="window.location.href='./answer?question_id=${(q.key)!''}'">
+                    <#if q.is_good==1>
+                        <i>
+                            精
+                        </i>
+                    </#if>
+                    <#if q.attach_type==3>
+                        <b>投票</b>
+                    <#elseif q.attach_type==4>
+                        <b>PK</b>
+                    <#elseif q.attach_type==6>
+                        <b class="activity">活动</b>
+                    <#elseif q.type==0>
+                        <b>提问</b>
+                    </#if>
+                ${(q.content)!''}
+                </p>
+                <p class="recom_img">
+                    <#if (q.attachs)??>
+                        <#list q.attachs as attach>
+                            <#if attach.type==0>
+                                <a  href="${(attach.url)!''}"
+                                    data-fancybox="${(q.key)!''}" data-type="image" >
+                                    <img src="${(attach.url)!''}" onerror="nofind()" alt="">
+                                </a>
+                            </#if>
+                        </#list>
+                    </#if>
+                </p>
+                <p class="recom_type">
+                    <#if (q.cars)??>
+                        <#list q.cars as car>
+                            <a href="./issues?series_id=${(car.id)!''}&series_name=${(car.name)!''}">${(car.name)!''}</a>
+                        </#list>
+                    </#if>
+                </p>
+                <p class="recom_other clearfix">
+                     <span class="type"
+                           onclick="window.location.href='./issues?category_id=${(q.category_id)!''}&category_name=${(q.category_name)!''}'">${(q.category_name)!''}</span>
+                    <span class="time_area"><i> ${(q.created_at)!''}</i>${(q.city.name)!''}</span>
+                    <span class="reply_num">
+    					<span class="comment_zan <#if (q.has_agree)?? && q.has_agree==1>comment_zan_checked</#if>"
+                              tagVal="${q.key}">${(q.agree_count)!''}</span>
+    				    <span class="comment_reply" tagVal="${q.key}" target_type="1">${(q.answer_count)!''}</span>
+                </p>
+            </dd>
+        </dl>
+    </#list>
+    <#if userSpecial.page==1>
+    </div>
+    </#if>
+</#if>

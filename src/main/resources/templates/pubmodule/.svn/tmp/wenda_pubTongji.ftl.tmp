@@ -1,0 +1,125 @@
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    function wxConfig(success){
+        $.ajax({
+            url: 'https://m.api.qichedaquan.com/thirdpart/weixin/tokenizer?curl='+encodeURIComponent(location.href.split('#')[0]),
+            data: {
+                app_id: '5d81db99484c0019cab240b3d04e9a4a'
+            },
+            dataType: 'jsonp',
+            jsonp: 'callback',
+            success: function(res){
+                if(res.code === 10000){
+                    //alert(res.data.url)
+                    var c = res.data
+                    wx.config({
+                        //debug: true,
+                        appId: c.appId,
+                        timestamp: c.timeStamp,
+                        nonceStr: c.nonceStr,
+                        signature: c.signature,
+                        jsApiList: [
+                            'onMenuShareTimeline',
+                            'onMenuShareAppMessage',
+                            'onMenuShareTimeline',
+                            'onMenuShareAppMessage',
+                            'onMenuShareQQ',
+                            'onMenuShareWeibo',
+                            'onMenuShareQZone',
+                            'openLocation',
+                            'getLocation'
+                        ]
+                    });
+                    success && success()
+                }
+            }
+        })
+    };
+
+    $(function(){
+        wxConfig();
+        wx.ready(function(){
+            //分享到朋友圈
+            wx.onMenuShareTimeline({
+                title: $('#friend_title').val()||document.title, // 分享标题
+                link:  $('#friend_link').val()||window.location.href, // 分享链接
+                imgUrl: $('#friend_img').val()|| 'http://jsx.qichedaquan.com/h5/img/logo2.png' // 分享图标
+            });
+            //分享给朋友
+            wx.onMenuShareAppMessage({
+                title: $('#people_title').val()||document.title, // 分享标题
+                desc: $('#people_desc').val()||'', // 分享描述
+                link: $('#people_link').val()||window.location.href, // 分享链接
+                imgUrl: $('#people_img').val()|| 'http://jsx.qichedaquan.com/h5/img/logo2.png' // 分享图标
+            });
+            wx.onMenuShareQQ({
+                title: $('#qq_title').val()||document.title, // 分享标题
+                desc: $('#qq_desc').val()||'', // 分享描述
+                link: $('#qq_link').val()||window.location.href, // 分享链接
+                imgUrl: $('#qq_img').val()|| 'http://jsx.qichedaquan.com/h5/img/logo2.png' // 分享图标
+            });
+            wx.onMenuShareWeibo({
+                title: $('#weibo_title').val()||document.title, // 分享标题
+                desc: $('#weibo_desc').val()||'', // 分享描述
+                link: $('#weibo_link').val()||window.location.href, // 分享链接
+                imgUrl: $('#weibo_img').val()|| 'http://jsx.qichedaquan.com/h5/img/logo2.png' // 分享图标
+            });
+            wx.onMenuShareQZone({
+                title: $('#qZone_title').val()||document.title, // 分享标题
+                desc: $('#qZone_desc').val()||'', // 分享描述
+                link: $('#qZone_link').val()||window.location.href, // 分享链接
+                imgUrl: $('#qZone_img').val()|| 'http://jsx.qichedaquan.com/h5/img/logo2.png' // 分享图标
+            });
+        })
+    })
+</script>
+
+<script src="http://glog.qcdqcdn.com" type="text/javascript"></script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?c9d83bc3a8558e4c043fcb7783ba8cb6";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<script type="text/javascript">
+    (function () {
+        var sTick = document.createElement('script');
+        sTick.type = 'text/javascript';
+        sTick.async = true;
+        sTick.src = "http://static.qcdqcdn.com/js/xy.js?ver=1.0";
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(sTick, firstScript);
+    })();
+</script>
+
+<script>
+    (function (G,D,s,c,p) {
+        c={//监测配置
+            UA:"UA-qichedaquan-000001", //客户项目编号,由系统生成
+            NO_FLS:0,
+            WITH_REF:1,
+            URL:'/js/iwt-min.js'//iwt.js的URL位置，请客户自行托管JS文件，只需修改此值
+        };
+        G._iwt?G._iwt.track(c,p):(G._iwtTQ=G._iwtTQ || []).push([c,p]),!G._iwtLoading && lo();
+        function lo(t) {
+            G._iwtLoading=1;s=D.createElement("script");s.src=c.URL;
+            t=D.getElementsByTagName("script");t=t[t.length-1];
+            t.parentNode.insertBefore(s,t);
+        }
+    })(this,document);
+</script>
+
+<script type="text/javascript">
+    var _maq = _maq || [];
+    _maq.push(['_setAccount', 'xyauto']);
+    (function() {
+        var ma = document.createElement('script');
+        ma.type = 'text/javascript';
+        ma.async = true;
+        ma.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'www.qchannel03.cn/m.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ma, s);
+    })();
+</script>

@@ -1,0 +1,82 @@
+<#if (answerRes)??>
+    <#list  answerRes.list as answer>
+    <dl class="comment_list clearfix">
+        <dt>
+            <a href="./user?uid=${(answer.user.uid)!''}">
+                <img onerror="nofind()" src="${(answer.user.avatar)!'img/user_default_title.png'}">
+            </a>
+            <#if answer.user.is_official==1>
+                <img src="img/guangfang1.png" class="level_title">
+            <#else>
+                <#if answer.user.type==2>
+                    <img src="img/expert.png" class="level_title">
+                <#elseif answer.user.type==1>
+                    <img src="img/biaobing.png" class="level_title">
+                <#elseif answer.user.type==3>
+                    <img src="img/guwen.png" class="level_title">
+                </#if>
+            </#if>
+        </dt>
+        <dd>
+            <span class="comment_name">${(answer.user.name)!''}</span>
+            <span class="want_do">
+					<i class="delete_alarm">
+                        <em></em>
+                        <#if (uid)??>
+                            <#if (answer.uid==uid)>
+                                <img style="display: inline-block;" tagVal="${(answer.answer_id)!''}"
+                                     src="img/wd_delete.png" class="delete">
+                            <#else>
+                                <img style="display: inline-block;" tagVal="${(answer.answer_id)!''}"
+                                     src="img/alarm.png" class="alarm">
+                            </#if>
+                        <#else>
+                            <img style="display: inline-block;" tagVal="${(answer.answer_id)!''}" src="img/alarm.png"
+                                 class="alarm">
+                        </#if>
+                    </i>
+			</span>
+        </dd>
+        <dd class="commnet_text">${(answer.content)!''}</dd>
+        <#if (answer.content?length > 70) >
+            <dd class="show_more">展开全部
+                <img src="img/down_hui.png">
+            </dd>
+        </#if>
+        <#if (answer.attachs)??>
+            <dd class="comment_img clearfix">
+                <#list answer.attachs as attach>
+                    <#if attach.type==0>
+                        <a href="${(attach.url)!''}" data-fancybox="answer_${(answer.answer_id)!''}" data-type="image">
+                            <img src="${(attach.url)!''}" alt="">
+                        </a>
+                    </#if>
+                </#list>
+            </dd>
+        </#if>
+        <#if (answer.reply.deleted_at)?? && answer.reply.deleted_at==0>
+            <dd class="reply">
+                <span><i>${(answer.reply.name)!''}</i>发表的回复：</span>
+                <p>
+                ${(answer.reply.content)!''}
+                    <#if (answer.reply.has_attach)?? && answer.reply.has_attach==1>
+                        [图片]
+                    </#if>
+                </p>
+            </dd>
+        <#elseif (answer.reply.deleted_at)?? && (answer.reply.deleted_at>0)>
+            <dd class="reply">
+                <span><i></i>内容已删除</span>
+            </dd>
+        </#if>
+        <dd>
+            <span class="comment_time"><i>${(answer.created_at)!''}</i>${(answer.city.name)!''}</span>
+            <span class="comment_interaction">
+                <span class="comment_zan <#if (answer.has_agree)?? && answer.has_agree==1>comment_zan_checked</#if>" tagVal="${answer.answer_id}"  target_type="1">${(answer.agree_count)!''}</span>
+    			<span class="comment_reply"   tagUid="${(answer.user.uid)!''}" tagName="${(answer.user.name)!''}"
+                      tagAnswerId="${(answer.answer_id)!''}"   ></span>
+			</span>
+        </dd>
+    </dl>
+    </#list>
+</#if>

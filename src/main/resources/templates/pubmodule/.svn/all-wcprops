@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/pubmodule
+END
+common_top.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/pubmodule/common_top.ftl
+END
+wenda_pubBottom.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/pubmodule/wenda_pubBottom.ftl
+END
+wenda_pubHeadNav.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/pubmodule/wenda_pubHeadNav.ftl
+END
+wenda_pubBottomPerson.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/xyask_m/!svn/ver/355/trunk/src/main/resources/templates/pubmodule/wenda_pubBottomPerson.ftl
+END
+wenda_levitate.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/xyask_m/!svn/ver/278/trunk/src/main/resources/templates/pubmodule/wenda_levitate.ftl
+END
+wenda_pubTongji.ftl
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/xyask_m/!svn/ver/323/trunk/src/main/resources/templates/pubmodule/wenda_pubTongji.ftl
+END

@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/xyask_m/!svn/ver/576/trunk/src/main/java/com/xyauto/qa/cloud
+END
+QuestionService.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/xyask_m/!svn/ver/576/trunk/src/main/java/com/xyauto/qa/cloud/QuestionService.java
+END
+SearchService.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/xyask_m/!svn/ver/290/trunk/src/main/java/com/xyauto/qa/cloud/SearchService.java
+END
+AssistService.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/xyask_m/!svn/ver/576/trunk/src/main/java/com/xyauto/qa/cloud/AssistService.java
+END
+UserService.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/xyask_m/!svn/ver/576/trunk/src/main/java/com/xyauto/qa/cloud/UserService.java
+END
+CommentService.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/xyask_m/!svn/ver/323/trunk/src/main/java/com/xyauto/qa/cloud/CommentService.java
+END
+NewsService.java
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/xyask_m/!svn/ver/290/trunk/src/main/java/com/xyauto/qa/cloud/NewsService.java
+END
+PointsService.java
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/xyask_m/!svn/ver/290/trunk/src/main/java/com/xyauto/qa/cloud/PointsService.java
+END
+CarService.java
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/xyask_m/!svn/ver/300/trunk/src/main/java/com/xyauto/qa/cloud/CarService.java
+END
